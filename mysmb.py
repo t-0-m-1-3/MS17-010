@@ -226,8 +226,8 @@ class MYSMB(smb.SMB):
 			pkt['Flags2'] |= smb.SMB.FLAGS2_SMB_SECURITY_SIGNATURE
 			self.signSMB(pkt, self._SigningSessionKey, self._SigningChallengeResponse)
 			
-		req = str(pkt)
-		return '\x00'*2 + pack('>H', len(req)) + req  # assume length is <65536
+		req = pkt.getData()
+		return b'\x00'*2 + pack('>H', len(req)) + req  # assume length is <65536
 
 	def send_raw(self, data):
 		self.get_socket().send(data)
